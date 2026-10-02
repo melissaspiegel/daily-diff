@@ -1,0 +1,2 @@
+import { describe, expect, it } from 'vitest'; import { MockStandupAgent } from './standup-agent'; import { mockActivity } from '../data/mock-activity';
+describe('MockStandupAgent',()=>{it('only uses included activity',async()=>{const result=await new MockStandupAgent().generate(mockActivity);expect(result.yesterday.join(' ')).not.toContain('renderer performance');expect(result.blockers).toHaveLength(1)})});
