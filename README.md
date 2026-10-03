@@ -11,14 +11,14 @@ The interesting problem is not "ask an LLM to write a standup." It is creating a
 ## Run it
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Tests:
 
 ```bash
-npm test
+pnpm test
 ```
 
 ## Architecture
