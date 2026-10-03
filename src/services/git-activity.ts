@@ -1,6 +1,8 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 
+import type { GitActivity } from '../types';
+
 const execFileAsync = promisify(execFile);
 
 export async function getCurrentBranch(): Promise<string> {
@@ -32,4 +34,22 @@ export async function getChangedFiles(): Promise<string[]> {
   return stdout
     .split('\n')
     .filter(Boolean);
+}
+
+/**
+ * Runs all three collectors and bundles the results
+ * into the GitActivity shape served by
+ * GET /api/git-activity.
+ *
+ * Promise.all() runs them concurrently — branch,
+ * commits, and changed files are independent.
+ */
+export async function collectGitActivity(): Promise<GitActivity> {
+  const [branch, commits, changedFiles] = await Promise.all([
+    getCurrentBranch(),
+    getRecentCommits(),
+    getChangedFiles(),
+  ]);
+
+  return { branch, commits, changedFiles };
 }
